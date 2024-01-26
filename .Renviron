@@ -1,0 +1,2 @@
+R_LIBS=./rlib
+R_LIBS_USER=./rlib

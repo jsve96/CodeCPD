@@ -1,0 +1,43 @@
+aha                     Solve Transportation Problem by
+                        Aurenhammer-Hoffmann-Aronov Method
+all.equal.pgrid         Methods for Judging Near Equality of Objects of
+                        Class pgrid, pp or wpp
+compatible              Test whether Two Objects are Compatible
+matimage                Plotting Matrices as Images
+northwestcorner         Compute starting solution for the
+                        transportation problem
+pgrid                   Constructor for the pgrid Class
+pgrid-object            Class of Pixel Grids
+plot.pgrid              Methods for Plotting Objects of Class pgrid, pp
+                        and wpp
+plot.ubtrans            Plot Unbalanced Transport Information
+plot_apollonius         Plot Apollonius Diagram
+power_diagram           Compute the Power Diagram of Weighted Sites in
+                        2-Dimensional Space
+pp                      Constructor for the pp Class
+pp-object               Class of (Unweighted) Point Patterns
+print.pgrid             Print and Summary Methods for Objects of Class
+                        pgrid, pp and wpp
+random32                Images to Illustrate the Use of transport.pgrid
+ret_message             Return Text Strings for lbfgs Return Codes
+semidiscrete            Find Optimal Transport Partition Between pgrid
+                        and wpp.
+semidiscrete1           Compute Semidiscrete Optimal Transport for
+                        Euclidean Distance Cost
+shielding               Compute Optimal Transport (Cost/Plan) Using the
+                        Multiscale Shielding Method
+subwasserstein          Approximate Computation of Wasserstein
+                        Distances via Subsampling.
+transport               Find Optimal Transport Plan Between Two Objects
+transport-package       Optimal Transport in Various Forms
+transport_track         Create a Dynamic Visualization of a
+                        Transference Plan Between Two pgrids
+trcontrol               Set the Control Parameters Used by 'transport'.
+unbalanced              Unbalanced Optimal Transport between pgrid
+                        Objects
+wasserstein             Compute the Wasserstein Distance Between Two
+                        Objects
+wasserstein1d           Compute the Wasserstein Distance Between Two
+                        Univariate Samples
+wpp                     Constructor for the wpp Class
+wpp-object              Class of Weighted Point Patterns

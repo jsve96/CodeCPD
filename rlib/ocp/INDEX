@@ -1,0 +1,26 @@
+const_hazard            Constant hazard function
+findCPprobs             Find Set of Changepoints with Highest
+                        probability
+gamesdata               This is data to be included in the package
+gamesdatacounts         This is data to be included in the package
+gaussianProb            Compute predictive probabilities based on
+                        Gaussian
+gaussian_init           Initialize vectors for gaussian probability
+                        functions
+gaussian_update         Update the gaussian parameters
+initOCPD                Initialize ocpd object
+negbinpdf               Calculate Negative-binomial on vector of
+                        parameters
+ocp-package             Bayesian Online Changepoint Detection for
+                        Multivariate Data
+onlineCPD               Bayesian Online Changepoint Detection
+plot.ocp                Plot Object
+poissonProb             Compute predictive probabilities based on
+                        Poisson
+poisson_init            Initialize vectors for poisson probability
+                        functions
+poisson_update          Update the poisson parameters
+print.ocp               Print Object
+str.ocp                 Object Structure
+studentpdf              Calculate Student PDF on vector of parameters
+summary.ocp             Object Summary
