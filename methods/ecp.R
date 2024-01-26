@@ -10,6 +10,7 @@ DATASET_PATH <- META_DATA$Dataset_DIR
 DATASETS <- META_DATA$Datasets
 RESULTS_PATH <- META_DATA$Results_DIR
 GRID <- META_DATA$METHODS$ECP
+UTILS <- META_DATA$UTILS
 print(GRID)
 # ECP": {
 #             "algorithm": [
@@ -33,8 +34,7 @@ grid <- expand.grid(algorithm = GRID$algorithm, siglvl = GRID$siglvl, minsize = 
 print(dim(grid))
 
 load.utils <- function() {
-   utils.script <- file.path('~/Github/Benchmark_SWATCH/methods', 'utils.R')
-   source(utils.script)
+   source(UTILS)
 }
 
 

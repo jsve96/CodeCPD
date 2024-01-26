@@ -10,14 +10,14 @@ DATASET_PATH <- META_DATA$Dataset_DIR
 DATASETS <- META_DATA$Datasets
 RESULTS_PATH <- META_DATA$Results_DIR
 GRID <- META_DATA$METHODS$KCPA
+UTILS <- META_DATA$UTILS
 print(GRID)
 
 grid <- expand.grid(maxcp = GRID$maxcp, cost = GRID$cost)
 print(dim(grid))
 
 load.utils <- function() {
-   utils.script <- file.path('~/Github/Benchmark_SWATCH/methods', 'utils.R')
-   source(utils.script)
+   source(UTILS)
 }
 
 
@@ -89,44 +89,44 @@ for (name in DATASETS){
 
    ### GRID SEARCH #### 
 
-#    out_long <- foreach(maxcp = grid$maxcp, cost = grid$cost,
-#                     .combine = 'c',
-#                     .packages = c('ecp','RJSONIO')
-#                     ) %dopar% {
-#                         tmp_params <- list(maxcp = maxcp , cost = cost)
-#                         result <- tryCatch({
-#                         start.time <- Sys.time()
-#                         if (tmp_params$maxcp == "max"){
-#                            tmp_params$L <- dim(mat)[1]
-#                         }
-#                         else {
-#                            tmp_params$L <- 5
-#                         }
-#                         fit <- kcpa(mat, tmp_params$L, tmp_params$cost)
-#                         locs <- fit
-#                          stop.time <- Sys.time()
-#                         runtime <- difftime(stop.time, start.time, units="secs")
-#         list(SETTING = paste(tmp_params$L, tmp_params$cost, tmp_params$maxcp ,sep = "_"), info = list(Method="KCPA", params = tmp_params, cp=locs, runtime = runtime, error = NULL))
-#     }, error=function(e) {
-#         return(list(SETTING = paste(tmp_params$L, tmp_params$cost, tmp_params$maxcp ,sep = "_"), info = list(Method="KCPA", params = tmp_params, cp=locs, runtime = NULL, error = e$message)))
-#     })
-#         }
+   out_long <- foreach(maxcp = grid$maxcp, cost = grid$cost,
+                    .combine = 'c',
+                    .packages = c('ecp','RJSONIO')
+                    ) %dopar% {
+                        tmp_params <- list(maxcp = maxcp , cost = cost)
+                        result <- tryCatch({
+                        start.time <- Sys.time()
+                        if (tmp_params$maxcp == "max"){
+                           tmp_params$L <- dim(mat)[1]
+                        }
+                        else {
+                           tmp_params$L <- 5
+                        }
+                        fit <- kcpa(mat, tmp_params$L, tmp_params$cost)
+                        locs <- fit
+                         stop.time <- Sys.time()
+                        runtime <- difftime(stop.time, start.time, units="secs")
+        list(SETTING = paste(tmp_params$L, tmp_params$cost, tmp_params$maxcp ,sep = "_"), info = list(Method="KCPA", params = tmp_params, cp=locs, runtime = runtime, error = NULL))
+    }, error=function(e) {
+        return(list(SETTING = paste(tmp_params$L, tmp_params$cost, tmp_params$maxcp ,sep = "_"), info = list(Method="KCPA", params = tmp_params, cp=locs, runtime = NULL, error = e$message)))
+    })
+        }
 
-#    temp_output_dir <- file.path(output_dir,"oracle_kcpa")
-#         if (!dir.exists(temp_output_dir)){
-#             dir.create(temp_output_dir)
-#             print("create new dir")
-#         }
-#    print(out_long)
+   temp_output_dir <- file.path(output_dir,"oracle_kcpa")
+        if (!dir.exists(temp_output_dir)){
+            dir.create(temp_output_dir)
+            print("create new dir")
+        }
+   print(out_long)
 
-#    for (i in 1:length(out_long)){
-#         if(!is.null(out_long[i]$SETTING)){
-#             temp_file <- c(out_long[i], out_long[i+1])
-#             outJson <- toJSON(temp_file,pretty=T)
-#             file_name = file.path(temp_output_dir,paste(temp_file$SETTING,"json",sep="."))
-#             write(outJson,file_name)
-#         }
-#     }
+   for (i in 1:length(out_long)){
+        if(!is.null(out_long[i]$SETTING)){
+            temp_file <- c(out_long[i], out_long[i+1])
+            outJson <- toJSON(temp_file,pretty=T)
+            file_name = file.path(temp_output_dir,paste(temp_file$SETTING,"json",sep="."))
+            write(outJson,file_name)
+        }
+    }
 
 
         

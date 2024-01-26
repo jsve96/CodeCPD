@@ -10,13 +10,18 @@ DATASET_PATH <- META_DATA$Dataset_DIR
 DATASETS <- META_DATA$Datasets
 RESULTS_PATH <- META_DATA$Results_DIR
 GRID <- META_DATA$METHODS$BOCPD
+UTILS <- META_DATA$UTILS
 print(GRID)
 grid <- expand.grid(lambda = GRID$lambda, prior_a = GRID$prior_a, prior_b = GRID$prior_b, prior_k = GRID$prior_k)
 print(dim(grid))
 
+print(UTILS)
+
 load.utils <- function() {
-   utils.script <- file.path('~/Github/Benchmark_SWATCH/methods', 'utils.R')
-   source(utils.script)
+   #utils.script <- file.path('~/Github/Benchmark_SWATCH/methods', 'utils.R')
+   #utils.script <- file.path(UTILS)
+   #source(utils.script)
+   source(UTILS)
 }
 
 hazard_func <- function(x, lambda) {

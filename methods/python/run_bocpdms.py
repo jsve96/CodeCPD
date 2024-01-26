@@ -14,11 +14,12 @@ MAIN_PATH = pathlib.Path().resolve()
 
 #PFAD noch anpassen
 
+print(MAIN_PATH)
 
 DIR = os.getcwd()
 
 #print(os.listdir('/home/jsve/Github/Benchmark_SWATCH'))
-with open('/home/jsve/Github/Benchmark_SWATCH/config.json') as f:
+with open(os.path.join(MAIN_PATH,"config.json")) as f:
     META_DATA = json.load(f)
 
 DATASET_PATH = os.path.join(DIR,'datasets')
@@ -156,7 +157,7 @@ class BOCPDMS_Detector:
 
 
 ##### main loop
-DATASETS = ['bee_waggle_6']
+DATASETS = ['apple']
 for name in DATASETS:
 
     tmp_path = os.path.join(DATASET_PATH,name)+".json"

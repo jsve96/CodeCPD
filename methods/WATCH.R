@@ -97,14 +97,14 @@ DATASET_PATH <- META_DATA$Dataset_DIR
 DATASETS <- META_DATA$Datasets
 RESULTS_PATH <- META_DATA$Results_DIR
 GRID <- META_DATA$METHODS$WATCH
+UTILS <- META_DATA$UTILS
 print(GRID)
 
 grid <- expand.grid(K = GRID$K, kappa = GRID$kappa, mu = GRID$mu, eps=GRID$eps)
 print(dim(grid))
 
 load.utils <- function() {
-   utils.script <- file.path('~/Github/Benchmark_SWATCH/methods', 'utils.R')
-   source(utils.script)
+   source(UTILS)
 }
 
 defaults <- list(K = 9, eps=1.5, kappa = 3, mu = 8)
