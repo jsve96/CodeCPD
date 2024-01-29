@@ -1,19 +1,15 @@
-"""
-Utility functions for CPDBench.
-
-Author: Gertjan van den Burg
-Copyright (c) 2020 - The Alan Turing Institute
-License: See the LICENSE file.
-
-"""
-
 import copy
 #import hashlib
 import json
 import numpy as np
 import socket
 import sys
+import zipfile
+import os
 
+
+def isZIP(path):
+    return zipfile.is_zipfile(os.path.join(path+'.zip'))
 
 def load_dataset(filename,normalize=True):
     """ Load a CPDBench dataset """

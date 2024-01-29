@@ -122,60 +122,93 @@ load.utils()
 
 
 ##############
-for (name in DATASETS){ 
-    tmp_path <- paste(file.path(DATASET_PATH,name),".json", sep="")
-    print(tmp_path)
-    ### check if MNIST
-    if (grepl('MNIST',name)){
-      data <- load.dataset(tmp_path,FALSE)
+for (name in DATASETS){
+tmp_path <- file.path(DATASET_PATH,name)
+unzip_dir <- file.path(dirname(DATASET_PATH),"methods/python/unzip.py")
+
+
+
+#run python script 
+#1) check if zip file
+#2) if zip file then unzip into tmp and return temp path
+out_script <- system(paste("python3",unzip_dir,file.path(dirname(DATASET_PATH),"tmp"),tmp_path),intern=TRUE)
+
+isZip <- as.logical(out_script)
+
+zipped_files_path <-  file.path(dirname(DATASET_PATH),"tmp")
+
+#part where datasets are in zip file
+if (isZip){
+    output_dir <- file.path(RESULTS_PATH,name)
+    if (!dir.exists(output_dir)){
+             dir.create(output_dir)
+             print("create new dir")
     }
-    else{
-    data <-  load.dataset(tmp_path)
+    for(file in list.files(zipped_files_path)[1:3]){
+        fname <- sub("\\.[^.]+$", "", file)
+        file_dir = file.path(output_dir,fname)
+        if (!dir.exists(file_dir)){
+         dir.create(file_dir)
+        }
+        # if (endsWith(fname,"_HAR")){
+        #     print(substr(fname,1,nchar(fname)-4))
+        if (grepl('MNIST',fname)){
+            data <- load.dataset(file.path(zipped_files_path,file),FALSE)  
+        }
+        else{
+            data <- load.dataset(file.path(zipped_files_path,file),TRUE)
+        }
+        mat <- data$mat
+        defaults$L <- dim(mat)[1]
+        print(defaults$L)
+
+         out_long <- foreach(K = grid$K,
+                    mu = grid$mu,
+                    kappa= grid$kappa,
+                    eps = grid$eps,
+                    .combine = 'c',
+                    .packages = c('transport','RJSONIO')
+                    ) %dopar% {
+                        tmp_params <- list(K = K, eps = eps, mu = mu, kappa = kappa)
+                        result <- tryCatch({
+                        start.time <- Sys.time()
+                        locs <- run_WATCH(data = mat, K = K, eps= eps, mu = mu, kappa = kappa)
+                         stop.time <- Sys.time()
+                        runtime <- difftime(stop.time, start.time, units="secs")
+        list(SETTING = paste(tmp_params$K, tmp_params$eps,
+                              tmp_params$kappa, tmp_params$mu,sep = "_"), info = list(Method="WATCH", params = tmp_params, cp=locs, runtime = runtime, error = NULL))
+    }, error=function(e) {
+        return(list(SETTING = paste(tmp_params$K, tmp_params$eps,
+                              tmp_params$kappa, tmp_params$mu,sep = "_"), info = list(Method="WATCH", params = tmp_params, cp=locs, runtime = NULL, error = e$message)))
+    })
+        }
+    #create ECP oracle Dir
+    WATCH_ORACLE_DIR <- file.path(file_dir,"oracle_WATCH")
+    if (!dir.exists(WATCH_ORACLE_DIR)){
+             dir.create(WATCH_ORACLE_DIR)
+             print("create new dir")
     }
+
+     for (i in 1:length(out_long)){
+        if(!is.null(out_long[i]$SETTING)){
+            temp_file <- c(out_long[i], out_long[i+1])
+            outJson <- toJSON(temp_file,pretty=T)
+            file_name = file.path(WATCH_ORACLE_DIR,paste(temp_file$SETTING,"json",sep="."))
+            write(outJson,file_name)
+        }
+
+
+}
+    }
+}
+#no zip files
+else{
+    output_dir <- file.path(RESULTS_PATH,name)
+    print(paste(file.path(DATASET_PATH,name),".json", sep=""))
+    data <- load.dataset(paste(file.path(DATASET_PATH,name),".json", sep=""),TRUE)
     mat <- data$mat
-
-
-    #defaults
-    print(run_WATCH(data = mat, K = defaults$K, kappa = defaults$kappa, mu = defaults$mu, eps = defaults$eps))
-    start.time <- Sys.time()
-        result <- tryCatch({
-                locs <- run_WATCH(data = mat, K = defaults$K, kappa = defaults$kappa, mu = defaults$mu, eps = defaults$eps)
-                list(locations=locs, error=NULL)
-                 list(SETTING = paste(defaults$K, defaults$eps,
-                              defaults$kappa, defaults$mu,sep = "_"), info = list(Method="WATCH", params = defaults, cp=locs, runtime = 0, error = NULL))
-            }, error=function(e) {
-                return(list(SETTING = paste(defaults$K, defaults$eps,
-                              defaults$kappa, defaults$mu,sep = "_"), info = list(Method="WATCH", params = defaults, cp=locs, runtime = NULL, error = e$message)))
-            })
-        stop.time <- Sys.time()
-        runtime <- difftime(stop.time, start.time, units="secs")
-        if (is.null(result$info$error)){
-         result$info$runtime <- runtime
-        }
-
-        output_dir <- file.path(RESULTS_PATH,name)
-        print(output_dir)
-
-        if (!dir.exists(output_dir)){
-            dir.create(output_dir)
-            print("create new dir")
-        }
-        default_output_dir <- file.path(output_dir,"default")
-        if (!dir.exists(default_output_dir)){
-            dir.create(default_output_dir)
-            print("create new dir")
-        }
-         # else safe with name default_NAMEMETHOD
-         else {
-               outJson <- toJSON(result,pretty=T)
-               file_name = file.path(default_output_dir,"default_WATCH.json")
-               write(outJson,file_name)
-         }
-
-
-#### GRID SEARCH #### 
-
-   out_long <- foreach(K = grid$K,
+    #defaults$L <- dim(mat)[1]
+       out_long <- foreach(K = grid$K,
                     mu = grid$mu,
                     kappa= grid$kappa,
                     eps = grid$eps,
@@ -196,13 +229,19 @@ for (name in DATASETS){
     })
         }
 
-   temp_output_dir <- file.path(output_dir,"oracle_WATCH")
+
+       if (!dir.exists(output_dir)){
+            dir.create(output_dir)
+            print("create new dir")
+        }
+
+
+        temp_output_dir <- file.path(output_dir,"oracle_WATCH")
         if (!dir.exists(temp_output_dir)){
             dir.create(temp_output_dir)
             print("create new dir")
         }
-   #print(out_long)
-
+  
    for (i in 1:length(out_long)){
         if(!is.null(out_long[i]$SETTING)){
             temp_file <- c(out_long[i], out_long[i+1])
@@ -212,4 +251,102 @@ for (name in DATASETS){
         }
     }
 
+
 }
+
+
+
+
+
+}
+# for (name in DATASETS){ 
+#     tmp_path <- paste(file.path(DATASET_PATH,name),".json", sep="")
+#     print(tmp_path)
+#     ### check if MNIST
+#     if (grepl('MNIST',name)){
+#       data <- load.dataset(tmp_path,FALSE)
+#     }
+#     else{
+#     data <-  load.dataset(tmp_path)
+#     }
+#     mat <- data$mat
+
+
+#     #defaults
+#     print(run_WATCH(data = mat, K = defaults$K, kappa = defaults$kappa, mu = defaults$mu, eps = defaults$eps))
+#     start.time <- Sys.time()
+#         result <- tryCatch({
+#                 locs <- run_WATCH(data = mat, K = defaults$K, kappa = defaults$kappa, mu = defaults$mu, eps = defaults$eps)
+#                 list(locations=locs, error=NULL)
+#                  list(SETTING = paste(defaults$K, defaults$eps,
+#                               defaults$kappa, defaults$mu,sep = "_"), info = list(Method="WATCH", params = defaults, cp=locs, runtime = 0, error = NULL))
+#             }, error=function(e) {
+#                 return(list(SETTING = paste(defaults$K, defaults$eps,
+#                               defaults$kappa, defaults$mu,sep = "_"), info = list(Method="WATCH", params = defaults, cp=locs, runtime = NULL, error = e$message)))
+#             })
+#         stop.time <- Sys.time()
+#         runtime <- difftime(stop.time, start.time, units="secs")
+#         if (is.null(result$info$error)){
+#          result$info$runtime <- runtime
+#         }
+
+#         output_dir <- file.path(RESULTS_PATH,name)
+#         print(output_dir)
+
+#         if (!dir.exists(output_dir)){
+#             dir.create(output_dir)
+#             print("create new dir")
+#         }
+#         default_output_dir <- file.path(output_dir,"default")
+#         if (!dir.exists(default_output_dir)){
+#             dir.create(default_output_dir)
+#             print("create new dir")
+#         }
+#          # else safe with name default_NAMEMETHOD
+#          else {
+#                outJson <- toJSON(result,pretty=T)
+#                file_name = file.path(default_output_dir,"default_WATCH.json")
+#                write(outJson,file_name)
+#          }
+
+
+# #### GRID SEARCH #### 
+
+#    out_long <- foreach(K = grid$K,
+#                     mu = grid$mu,
+#                     kappa= grid$kappa,
+#                     eps = grid$eps,
+#                     .combine = 'c',
+#                     .packages = c('transport','RJSONIO')
+#                     ) %dopar% {
+#                         tmp_params <- list(K = K, eps = eps, mu = mu, kappa = kappa)
+#                         result <- tryCatch({
+#                         start.time <- Sys.time()
+#                         locs <- run_WATCH(data = mat, K = K, eps= eps, mu = mu, kappa = kappa)
+#                          stop.time <- Sys.time()
+#                         runtime <- difftime(stop.time, start.time, units="secs")
+#         list(SETTING = paste(tmp_params$K, tmp_params$eps,
+#                               tmp_params$kappa, tmp_params$mu,sep = "_"), info = list(Method="WATCH", params = tmp_params, cp=locs, runtime = runtime, error = NULL))
+#     }, error=function(e) {
+#         return(list(SETTING = paste(tmp_params$K, tmp_params$eps,
+#                               tmp_params$kappa, tmp_params$mu,sep = "_"), info = list(Method="WATCH", params = tmp_params, cp=locs, runtime = NULL, error = e$message)))
+#     })
+#         }
+
+#    temp_output_dir <- file.path(output_dir,"oracle_WATCH")
+#         if (!dir.exists(temp_output_dir)){
+#             dir.create(temp_output_dir)
+#             print("create new dir")
+#         }
+#    #print(out_long)
+
+#    for (i in 1:length(out_long)){
+#         if(!is.null(out_long[i]$SETTING)){
+#             temp_file <- c(out_long[i], out_long[i+1])
+#             outJson <- toJSON(temp_file,pretty=T)
+#             file_name = file.path(temp_output_dir,paste(temp_file$SETTING,"json",sep="."))
+#             write(outJson,file_name)
+#         }
+#     }
+
+# }

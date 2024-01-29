@@ -1,5 +1,3 @@
-
-
 import numpy as np
 import time
 import json
@@ -229,7 +227,7 @@ for name in DATASETS:
         print(sample_dict)
         BOCPDMS_detector = BOCPDMS_Detector(mat, defaults, sample_dict, outputdir,name)
         locations, run_time = BOCPDMS_detector.run()
-        out_dict =  {'Name':name, 'Method':"BOCPDMS", 'params': sample_dict, 'cp':locations, 'F1':f_measure(annotation_data, locations), 'covering':covering(annotation_data,locations,mat.shape[0]),"time": run_time}
+        out_dict =  {'setting':{'Name':name, 'Method':"BOCPDMS", 'params': sample_dict}, 'info':{'cp':locations, 'F1':f_measure(annotation_data, locations), 'covering':covering(annotation_data,locations,mat.shape[0]),"runtime": run_time}}
         print(run_time)
         if not os.path.exists(outputdir):
             os.mkdir(outputdir)

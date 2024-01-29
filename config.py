@@ -27,7 +27,7 @@ print(RESULTS_PATH)
 config_path = os.path.join(DIR_PATH,"config.json")
 #os.remove(config_path)
 
-DATASETS = ['MNIST_C2_1']#['MNIST_C3_'+str(i) for i in range(10)]#['subject'+str(i)+"_HAR" for i in range(1,31)]#['Libras']#['MNIST_1','MNIST_2','MNIST_3','MNIST_4','MNIST_5','MNIST_6','MNIST_7','MNIST_8','MNIST_9']#['batch6']#,'batch6']#['bee_waggle_6', 'occupancy','run_log']#['MNIST_0','MNIST_1','MNIST_2','MNIST_3','MNIST_4','MNIST_5','MNIST_6','MNIST_7','MNIST_8','MNIST_9']
+DATASETS = ['bee_waggle_6']#['MNIST_C3_'+str(i) for i in range(10)]#['subject'+str(i)+"_HAR" for i in range(1,31)]#['Libras']#['MNIST_1','MNIST_2','MNIST_3','MNIST_4','MNIST_5','MNIST_6','MNIST_7','MNIST_8','MNIST_9']#['batch6']#,'batch6']#['bee_waggle_6', 'occupancy','run_log']#['MNIST_0','MNIST_1','MNIST_2','MNIST_3','MNIST_4','MNIST_5','MNIST_6','MNIST_7','MNIST_8','MNIST_9']
 #['apple','bee_waggle_6', 'occupancy','run_log', 'subject1_HAR','subject2_HAR', 'subject3_HAR', 'subject4_HAR','subject5_HAR', 'subject6_HAR','subject7_HAR','subject8_HAR',
             #'subject9_HAR', 'subject10_HAR','subject11_HAR', 'subject12_HAR', 'subject13_HAR','subject14_HAR','subject15_HAR','subject16_HAR','subject17_HAR','subject18_HAR','subject19_HAR','subject20_HAR', 'subject21_HAR','subject22_HAR','subject23_HAR','subject24_HAR','subject25_HAR','subject26_HAR','subject27_HAR','subject28_HAR','subject29_HAR','subject30_HAR']#['batch3','batch4','batch5','batch6']
 #  ['apple', 'bee_waggle_6', 'occupancy','run_log', 'subject1_HAR','subject2_HAR', 'subject3_HAR', 'subject4_HAR','subject5_HAR', 'subject6_HAR','subject7_HAR','subject8_HAR',
