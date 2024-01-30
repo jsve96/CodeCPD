@@ -5,7 +5,7 @@ This is the repository for the experiments of
 "Projected Change Point Detection based on the Sliced Wasserstein distance for
 high-dimensional time series"
 
-and contains
+and contains:
 - All datasets
 - Methods
 - Sampling methods
@@ -25,11 +25,13 @@ source venv/bin/activate
 cd methods/python/bocpdms pip install -r requirements.txt
 ```
 ### Run experiments 
-If you want to run all experiments please run 
+If you want to run all experiments please run (not recommended)
 ```
 sh Simulation.sh
 ```
 The bash script activates the virtual environment and calls R, and Python scripts of the methods folder. Each script iterates over all datasets and stores the results in the result folder.
+
+
 If you want to run specific methods on specific datasets (recommended), you can modify config.py and use
 ```
 python3 config.py
@@ -38,3 +40,6 @@ or
 python3 methods/run_method.py
 ```
 to update config.json and run the selected method.
+
+For example say you want to run Bayesian Online Change Point Detection (BOCPD) just on the Apple dataset. Update datasets in config.py and set DATASETS = ['apple'], update config.json, and run ocp.R.
+
