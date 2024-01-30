@@ -266,10 +266,10 @@
             ]
         }
     },
-    "Dataset_DIR": "/home/jsve/GithubSave/CodeCPD/datasets",
-    "Results_DIR": "/home/jsve/GithubSave/CodeCPD/results",
+    "Dataset_DIR": "/home/jsve/GithubRepos/CodeCPD/datasets",
+    "Results_DIR": "/home/jsve/GithubRepos/CodeCPD/results",
     "Datasets": [
         "MNIST"
     ],
-    "UTILS": "/home/jsve/GithubSave/CodeCPD/methods/utils.R"
+    "UTILS": "/home/jsve/GithubRepos/CodeCPD/methods/utils.R"
 }

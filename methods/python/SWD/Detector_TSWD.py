@@ -30,7 +30,7 @@ class Detector:
         p: int;
            Order of Sliced Wasserstein Distance
     """
-    def __init__(self, data,K,eps,kappa,mu,L,p,delta=0):
+    def __init__(self, data,K,eps,kappa,mu,L,p,delta=0,fimp=False):
 
         """
         Initializes the Detector object.
@@ -55,6 +55,8 @@ class Detector:
         self.fimp_data = None
         self.cp_list = None
         self.delta = delta
+        self.fimp_flag = fimp
+
 
 
     def run(self):
@@ -68,9 +70,11 @@ class Detector:
         T = int(len(data_split))
 
         current_distribution = []
-        #self.fimp_list = []
+        self.fimp_list = []
         fimp_id =[]
         cps = []
+        if self.fimp_flag:
+            self.Q = {'i':[],'q':[]}
 
         for i in range(T):
             if len(current_distribution)< self.kappa:
@@ -79,7 +83,15 @@ class Detector:
                 if len(current_distribution) >= self.kappa:
                         threshold = get_threshold(current_distribution,self.eps,projections = self.L,delta=self.delta)
             else:
-                p = p_test_SWD(data_split[i], current_distribution, T = threshold,  feature_imp = True, projections = self.L, delta=self.delta)
+                if self.fimp_flag:
+                    p, fimp = p_test_SWD(data_split[i], current_distribution, T = threshold,  feature_imp = True, projections = self.L, delta=self.delta)
+                    self.Q['q'].append(p)
+                    self.Q['i'].append(i*self.K)
+                    self.fimp_list.append(fimp)
+                    fimp_id.append(i*self.K) 
+                else:
+                    p = p_test_SWD(data_split[i], current_distribution, T = threshold,  feature_imp = False, projections = self.L, delta=self.delta)
+                    
                 if p > 0.95:
                     cp = i*self.K
                     cps.append(cp)
@@ -92,8 +104,8 @@ class Detector:
                         current_distribution.pop(0)
                         current_distribution.append(data_split[i])
                         threshold = get_threshold(current_distribution, self.eps, projections=self.L, delta = self.delta)
-
-        #self.fimp_data = {'values': self.fimp_list, 'id':fimp_id}
+        if self.fimp_flag:
+            self.fimp_data = {'values': self.fimp_list, 'id':fimp_id}
 
         return cps
     

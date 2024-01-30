@@ -42,8 +42,10 @@ def sw_vectorized(X, Y, L=100, p=2, feature_importance = False, delta = 0.0):
     wd = dist_p.mean(axis=0)
 
     if feature_importance:
-        max_wd_index = list(wd).index(max(wd))
-        return (np.mean(wd))**(1/p), theta_normed[max_wd_index]
+        #max_wd_index = list(wd).index(max(wd))
+        ind = np.argpartition(wd,-25)[-25:]
+        return (np.mean(wd))**(1/p), np.mean(np.abs(theta_normed[ind]),axis=0)
+        
 
     return (np.mean(wd))**(1/p)
 
@@ -175,12 +177,20 @@ def get_swd(batch, list_of_data,projections=100,p=2, feature_imp=False,delta=0.0
 def p_test_SWD(batch, list_of_data,T,N = 50,projections = 50, feature_imp = False, delta = 0):
     y_s = np.vstack(list_of_data)
     bootstrap = []
-    feature_list = []
-
-    for trial in range(N):
-        subset_ind = np.random.choice(range(y_s.shape[0]), max(batch.shape[0],int(y_s.shape[0]*0.3)))
-        subset = y_s[subset_ind]
-        swd = sw_vectorized(batch, subset, L = projections, feature_importance=False, delta=delta)
-        bootstrap.append(swd)
-
-    return np.mean((np.array(bootstrap)> T)*1)
+    features_list = []
+    if feature_imp:
+        for trial in range(N):
+            subset_ind = np.random.choice(range(y_s.shape[0]),max(batch.shape[0],int(y_s.shape[0]*0.3)))
+            subset = y_s[subset_ind,:]
+            swd, features = sw_vectorized(batch,subset,L=projections,feature_importance=True,delta=delta)
+            bootstrap.append(swd)
+            features_list.append(features)
+        return np.mean((np.array(bootstrap) > T)*1), np.mean(np.vstack(features_list),axis=0)
+        
+    else:
+        for trial in range(N):
+            subset_ind = np.random.choice(range(y_s.shape[0]), max(batch.shape[0],int(y_s.shape[0]*0.3)))
+            subset = y_s[subset_ind]
+            swd = sw_vectorized(batch, subset, L = projections, feature_importance=False, delta=delta)
+            bootstrap.append(swd)
+        return np.mean((np.array(bootstrap)> T)*1)
