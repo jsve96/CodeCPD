@@ -1,14 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-"""
-Evaluation metrics
 
-Author: G.J.J. van den Burg
-Copyright (c) 2020 - The Alan Turing Institute
-License: See the LICENSE file.
-
-"""
 
 import numpy as np
 import json
@@ -200,8 +193,3 @@ def load_dataset(filename,normalize=True):
         return data, mat
 
     return data, mat
-
-
-
-if __name__ == "__main__":
-    print(f_measure({'1': [541, 938, 951, 998]},[552, 800, 952]))

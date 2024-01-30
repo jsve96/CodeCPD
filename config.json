@@ -203,12 +203,13 @@
         },
         "WATCH": {
             "K": [
+                3,
+                4,
                 5,
                 6,
                 7,
                 8,
-                9,
-                10
+                9
             ],
             "eps": [
                 1.0,
@@ -216,31 +217,31 @@
                 1.2,
                 1.3,
                 1.4,
-                1.5,
-                1.6
+                1.5
             ],
             "mu": [
+                3,
+                4,
                 5,
                 6,
                 7,
-                8,
-                9
+                8
             ],
             "kappa": [
                 2,
                 3,
-                4,
-                5
+                4
             ]
         },
         "SWD": {
             "K": [
+                3,
+                4,
                 5,
                 6,
                 7,
                 8,
-                9,
-                10
+                9
             ],
             "eps": [
                 1.0,
@@ -248,28 +249,27 @@
                 1.2,
                 1.3,
                 1.4,
-                1.5,
-                1.6
+                1.5
             ],
             "mu": [
+                3,
+                4,
                 5,
                 6,
                 7,
-                8,
-                9
+                8
             ],
             "kappa": [
                 2,
                 3,
-                4,
-                5
+                4
             ]
         }
     },
     "Dataset_DIR": "/home/jsve/GithubSave/CodeCPD/datasets",
     "Results_DIR": "/home/jsve/GithubSave/CodeCPD/results",
     "Datasets": [
-        "bee_waggle_6"
+        "MNIST"
     ],
     "UTILS": "/home/jsve/GithubSave/CodeCPD/methods/utils.R"
 }

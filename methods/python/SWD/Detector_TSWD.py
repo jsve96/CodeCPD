@@ -7,6 +7,7 @@ from itertools import product
 import timeit
 import concurrent.futures
 import time
+import multiprocessing
 
 class Detector:
     
@@ -162,6 +163,73 @@ class Detector:
     #             results['F1'].append(f_measure(annotations,self.cp_list))
     #             results['covering'].append(covering(annotations,self.cp_list,self.data.shape[0]))
     #     return results
+
+
+    # def grid_search_single(self, params, annotations):
+    #     """
+    #     Perform grid search for a single parameter combination.
+
+    #     Parameters:
+    #     - params (tuple): A tuple of parameter values.
+    #     - annotations (numpy.ndarray): Annotations or ground truth labels.
+
+    #     Returns:
+    #     - tuple: A tuple containing parameter combination, change point IDs, F1 score, and covering value.
+    #     """
+    #     param_combination = dict(zip(self.param_grid.keys(), params))
+    #     if param_combination['kappa'] > param_combination['mu']:
+    #         return None
+    #     else:
+    #         self.K = int(param_combination['K'])
+    #         self.eps = param_combination['eps']
+    #         self.kappa = param_combination['kappa']
+    #         self.mu = param_combination['mu']
+    #         start = time.time()
+    #         cps = self.run()
+    #         end = time.time()
+    #         run_time = end-start
+    #         #print(run_time)
+    #         return (
+    #             tuple(param_combination.values()),
+    #             cps,
+    #             f_measure(annotations, cps),
+    #             covering(annotations, cps, self.data.shape[0]),
+    #             run_time
+    #         )
+
+    # def grid_search(self, param_grid, annotations):
+    #     """
+    #     Perform a grid search over the specified parameter grid in parallel.
+
+    #     Parameters:
+    #     - param_grid (dict): A dictionary where keys are parameter names and values are lists of possible values for each parameter.
+    #     - annotations (numpy.ndarray): Annotations or ground truth labels.
+
+    #     Returns:
+    #     - dict: A dictionary containing the results of the grid search.
+    #     - 'F1' (list): List of F1 scores for each parameter combination.
+    #     - 'parameter' (list): List of parameter combinations.
+    #     - 'cp_id' (list): List of change point IDs for each parameter combination.
+    #     - 'covering' (list): List of covering values for each parameter combination.
+    #     """
+    #     results = {'F1': [], "parameter": [], "cp_id": [], "covering": [],"runtime":[]}
+
+    #     self.param_grid = param_grid  # Store the param_grid as an attribute
+    #     n_repeats = len(list(product(*param_grid.values())))
+    #     #print(n_repeats)
+
+    #     # Use multiprocessing.Pool to parallelize the grid search
+    #     with multiprocessing.Pool() as pool:
+    #         # Map the grid_search_single function to the parameter combinations
+    #         results_list = pool.starmap(self.grid_search_single, [(params, annotations) for params in product(*param_grid.values())])
+
+    #     # Filter out None results (when kappa > mu)
+    #     results_list = [result for result in results_list if result is not None]
+
+    #     # Unpack the results into separate lists
+    #     results['parameter'], results['cp_id'], results['F1'], results['covering'],results['runtime'] = zip(*results_list)
+
+    #     return results
     
     def grid_search_single(self, params, annotations):
         """
@@ -247,6 +315,7 @@ class Detector:
                 cps = self.run()
                 end = time.time()
                 run_time = end-start
+                #print(run_time)
 
                 results['F1'].append(f_measure(annotations, cps))
                 results['covering'].append(covering(annotations, cps, self.data.shape[0]))

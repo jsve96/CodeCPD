@@ -36,7 +36,7 @@ defaults <- list(missPts="none",
                      minRlength=1,
                      maxRlength=10^4, # bigger than any of our datasets
                      minsep=1,
-                     maxsep=10^4 # bigger than any of our datasets
+                     maxsep=10^4# bigger than any of our datasets
                      )
 
 Detection <-function(mat,params,model.params,name){
@@ -85,6 +85,7 @@ tmp_path <- file.path(DATASET_PATH,name)
 unzip_dir <- file.path(dirname(DATASET_PATH),"methods/python/unzip.py")
 
  params <- defaults
+ params$multivariate <- TRUE
 
 
 #run python script 
@@ -116,7 +117,7 @@ if (isZip){
             data <- load.dataset(file.path(zipped_files_path,file),TRUE)
         }
         mat <- data$mat
-
+        S <- Sys.time()
        out_long <- foreach(lambda_in = grid$lambda,
                     prior_a = grid$prior_a,
                     prior_b = grid$prior_b,
@@ -148,7 +149,8 @@ if (isZip){
         return(list(SETTING = paste(lambda_in,prior_a,prior_b,prior_k,sep = "_"), info = list(Method="BOCPD", params = tmp_params, cp=NULL, runtime = NULL, error=e$message)))
     })
         }
-
+    E <- Sys.time()
+    print(E-S)
     #create BOCPD oracle Dir
     BOCPD_ORACLE_DIR <- file.path(file_dir,"oracle_bocpd")
     if (!dir.exists(BOCPD_ORACLE_DIR)){

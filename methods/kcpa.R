@@ -62,6 +62,7 @@ if (isZip){
     for(file in list.files(zipped_files_path)[1:3]){
         fname <- sub("\\.[^.]+$", "", file)
         file_dir = file.path(output_dir,fname)
+        print(fname)
         if (!dir.exists(file_dir)){
          dir.create(file_dir)
         }

@@ -161,7 +161,7 @@ if (isZip){
         mat <- data$mat
         defaults$L <- dim(mat)[1]
         print(defaults$L)
-
+        S <- Sys.time()
          out_long <- foreach(K = grid$K,
                     mu = grid$mu,
                     kappa= grid$kappa,
@@ -182,6 +182,8 @@ if (isZip){
                               tmp_params$kappa, tmp_params$mu,sep = "_"), info = list(Method="WATCH", params = tmp_params, cp=locs, runtime = NULL, error = e$message)))
     })
         }
+      E<- Sys.time()
+      print(E-S)
     #create ECP oracle Dir
     WATCH_ORACLE_DIR <- file.path(file_dir,"oracle_WATCH")
     if (!dir.exists(WATCH_ORACLE_DIR)){
