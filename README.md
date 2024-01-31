@@ -46,3 +46,9 @@ to update config.json and run the selected method.
 
 For example say you want to run Bayesian Online Change Point Detection (BOCPD) just on the Apple dataset. Update datasets in config.py and set DATASETS = ['apple'], update config.json, and run ocp.R.
 
+You can run
+```
+python3 summarize.py
+```
+to calculate and summarize the metrics (F1-score, Segmentation Covering)
+
