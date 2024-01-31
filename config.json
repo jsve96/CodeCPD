@@ -269,7 +269,7 @@
     "Dataset_DIR": "/home/jsve/GithubSave/CodeCPD/datasets",
     "Results_DIR": "/home/jsve/GithubSave/CodeCPD/results",
     "Datasets": [
-        "apple"
+        "run_log"
     ],
     "UTILS": "/home/jsve/GithubSave/CodeCPD/methods/utils.R"
 }
