@@ -91,7 +91,7 @@ ax[3,1].title.set_text('Fourth component')
 
 fig.tight_layout();
 print(current_directory)
-fig.savefig(os.path.join(current_directory,"appendix","bee_waggle.pdf"))
+fig.savefig(os.path.join(current_directory,"appendix","bee_waggle_plot.pdf"))
 
 
 # N = cp_loc[-1]

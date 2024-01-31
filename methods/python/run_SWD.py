@@ -9,8 +9,8 @@ import shutil
 from SWD.SlicedWasserstein import *
 from SWD.utils import *
 #from SWD.Detector_MMD import Detector as MMD_Detector
-#from SWD.Detector_TSWD import Detector as p_Detector
-from SWD.Detector_SWD import Detector as p_Detector
+from SWD.Detector_TSWD import Detector as p_Detector
+#from SWD.Detector_SWD import Detector as p_Detector
 from itertools import product
 #from utils import *
 
