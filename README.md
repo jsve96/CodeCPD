@@ -23,7 +23,8 @@ mkdir path/to/repo/results
 Then activate virtual environment and install required packages in requirements.txt (BOCPMS)
 ```
 source venv/bin/activate
-cd methods/python/bocpdms pip install -r requirements.txt
+cd methods/python/bocpdms
+pip install -r requirements.txt
 ```
 The results directory has the same structure as datasets and will be emtpy first (also part of .gitignore file). It will be automatically filled if you run experiments.
 ### Run experiments 
@@ -39,7 +40,7 @@ If you want to run specific methods on specific datasets (recommended), you can 
 python3 config.py
 Rscript methods/method.R
 or
-python3 methods/run_method.py
+python3 methods/python/run_method.py
 ```
 to update config.json and run the selected method.
 
