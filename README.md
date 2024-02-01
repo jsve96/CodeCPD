@@ -10,7 +10,7 @@ and contains:
 - Methods
 - Sampling methods
 
-Make sure that you have an installation of Python and R. We choose to create a virtual environment for this repository called venv and some similar solution for R (rlib). All neccessary libraries for R are already in the rlib folder. Python packages must be installed manually first.
+Make sure that you have an installation of Python and R. We choose to create a virtual environment for this repository called venv and some similar solution for R (rlib). All neccessary libraries for R are already in the rlib folder. Python packages must be installed manually first. The workflow is mainly inspired by [TCPDBench](https://github.com/alan-turing-institute/TCPDBench), where we used the Apple, BeeWaggle, Occupancy, and RunLog dataset and metrics.
 
 ### Set up repo and virtual env to run experiments in python
 Just clone repository and create an virtual environment called vevn first and create result directory
