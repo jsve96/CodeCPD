@@ -16,7 +16,6 @@ print(MAIN_PATH)
 
 DIR = os.getcwd()
 
-#print(os.listdir('/home/jsve/Github/Benchmark_SWATCH'))
 with open(os.path.join(MAIN_PATH,"config.json")) as f:
     META_DATA = json.load(f)
 

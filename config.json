@@ -266,10 +266,10 @@
             ]
         }
     },
-    "Dataset_DIR": "/home/jsve/GithubRepos/CodeCPD/datasets",
-    "Results_DIR": "/home/jsve/GithubRepos/CodeCPD/results",
+    "Dataset_DIR": "xxx",
+    "Results_DIR": "xxx",
     "Datasets": [
         "run_log"
     ],
-    "UTILS": "/home/jsve/GithubRepos/CodeCPD/methods/utils.R"
+    "UTILS": "xxx"
 }

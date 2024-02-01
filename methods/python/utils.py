@@ -12,7 +12,7 @@ def isZIP(path):
     return zipfile.is_zipfile(os.path.join(path+'.zip'))
 
 def load_dataset(filename,normalize=True):
-    """ Load a CPDBench dataset """
+    
     with open(filename, "r") as fp:
         data = json.load(fp)
 

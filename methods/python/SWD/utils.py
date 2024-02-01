@@ -175,7 +175,6 @@ def sequence_data(data,K):
 
 
 def load_dataset(filename,normalize=True):
-    """Load a CPDBecnh dataset"""
     with open(filename, "r") as fp:
         data = json.load(fp)
 

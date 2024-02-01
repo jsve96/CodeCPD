@@ -33,15 +33,15 @@ echo "${VIRTUAL_ENV_PATH}"
 
 python3 config.py
 
-#python3 ./methods/python/run_SWD.py
-#python3 ./methods/python/run_SWD10.py
-#python3 ./methods/python/run_SWD20.py
+python3 ./methods/python/run_SWD.py
+python3 ./methods/python/run_SWD10.py
+python3 ./methods/python/run_SWD20.py
 python3 ./methods/python/run_MMD.py
 
 
-#Rscript ./methods/ocp.R
-#Rscript ./methods/ecp.R
-#Rscript ./methods/kcpa.R
+Rscript ./methods/ocp.R
+Rscript ./methods/ecp.R
+Rscript ./methods/kcpa.R
 Rscript ./methods/WATCH.R
 
 
