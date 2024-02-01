@@ -61,7 +61,7 @@ for name in DATASETS:
                 os.mkdir(os.path.join(MAIN_PATH,'tmp'))
             if not os.path.exists(os.path.join(RESULTS_PATH,name)):
                 os.mkdir(os.path.join(RESULTS_PATH,name))
-            for file in FILES[4:5]:
+            for file in FILES:
 
                 if file.endswith('.json'):
                     archive.extract(file, path=os.path.join(MAIN_PATH,'tmp'))   
@@ -81,10 +81,10 @@ for name in DATASETS:
                 print(ground_truth)
 
                 SWATCH = p_Detector(mat,K=4,eps=1.1,kappa=5,mu=8,L=100,p=2,delta=0.0)
-                start = time.time()
-                cps = SWATCH.run()
-                end = time.time()
-                print(end-start)
+                # start = time.time()
+                # cps = SWATCH.run()
+                # end = time.time()
+                # print(end-start)
 
                 print(GRID.keys())
                 print(fname)
