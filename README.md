@@ -1,4 +1,4 @@
-# Info
+# Usage
 
 This is the repository for the experiments of
 
