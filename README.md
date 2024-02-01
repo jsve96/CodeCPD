@@ -1,4 +1,4 @@
-# CodeCPD
+# Info
 
 This is the repository for the experiments of
 
