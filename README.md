@@ -30,7 +30,7 @@ The results directory has the same structure as datasets and will be emtpy first
 ### Run experiments 
 If you want to run all experiments please run (not recommended)
 ```
-sh Simulation.sh
+bash Simulation.sh
 ```
 The bash script activates the virtual environment and calls R, and Python scripts of the methods folder. Each script iterates over all datasets and stores the results in the result folder.
 
