@@ -1,13 +1,13 @@
 import sys
 import numpy as np
-from src.utils import *
-from src.SlicedWasserstein import *
+from SWD.utils import *
+from SWD.SlicedWasserstein import *
 import os
 from itertools import product
 import timeit
 import concurrent.futures
 import time
-from src.Distances import *
+from SWD.Distances import *
 
 class Detector:
     
@@ -30,7 +30,7 @@ class Detector:
         p: int;
            Order of Sliced Wasserstein Distance
     """
-    def __init__(self, data,K,eps,kappa,mu,L,p):
+    def __init__(self, data,K,eps,kappa,mu,L,p=2):
 
         """
         Initializes the Detector object.
@@ -185,12 +185,16 @@ class Detector:
             self.eps = param_combination['eps']
             self.kappa = param_combination['kappa']
             self.mu = param_combination['mu']
+            start = time.time()
             cps = self.run()
+            end = time.time()
+            run_time = end-start
             return (
                 tuple(param_combination.values()),
                 cps,
                 f_measure(annotations, cps),
-                covering(annotations, cps, self.data.shape[0])
+                covering(annotations, cps, self.data.shape[0]),
+                run_time
             )
 
     def grid_search(self, param_grid, annotations):
@@ -208,7 +212,7 @@ class Detector:
         - 'cp_id' (list): List of change point IDs for each parameter combination.
         - 'covering' (list): List of covering values for each parameter combination.
         """
-        results = {'F1': [], "parameter": [], "cp_id": [], "covering": []}
+        results = {'F1': [], "parameter": [], "cp_id": [], "covering": [],"runtime":[]}
 
         self.param_grid = param_grid  # Store the param_grid as an attribute
         n_repeats = len(list(product(*param_grid.values())))
@@ -221,7 +225,7 @@ class Detector:
         results_list = [result for result in results_list if result is not None]
 
         # Unpack the results into separate lists
-        results['parameter'], results['cp_id'], results['F1'], results['covering'] = zip(*results_list)
+        results['parameter'], results['cp_id'], results['F1'], results['covering'], results['runtime'] = zip(*results_list)
 
         return results
         

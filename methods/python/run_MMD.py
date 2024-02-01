@@ -80,7 +80,7 @@ for name in DATASETS:
                 print(mat.shape)
                 print(ground_truth)
 
-                SWATCH = MMD_Detector(mat,K=4,eps=1.1,kappa=5,mu=8,L=100,p=2)
+                SWATCH = MMD_Detector(mat,K=4,eps=1.1,kappa=5,mu=8,L=100)
                 start = time.time()
                 cps = SWATCH.run()
                 end = time.time()
@@ -136,8 +136,10 @@ for name in DATASETS:
                 os.mkdir(os.path.join(cur_out_dir))
 
             SWD_dir = os.path.join(cur_out_dir,"oracle_MMD")
+            print(SWD_dir)
             if not os.path.exists(SWD_dir):
                 os.mkdir(os.path.join(SWD_dir))
+                print("create dir: {}".format(SWD_dir))
 
 
             with open(os.path.join(SWD_dir,'MMD'+str(ind)+'.json'), "w") as f:

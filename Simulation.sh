@@ -1,49 +1,47 @@
 #!/bin/bash
+
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
+echo "${SCRIPT_DIR}"
+
+
+# Path to the virtual environment
+if [ "$(pwd)" != "$SCRIPT_DIR" ]; then
+    echo "Script is not executed from its directory. Exiting."
+    source "cd in Project directory"
+    VIRTUAL_ENV_PATH="$SCRIPT_DIR/venv"
+
+else
+     echo "Script is excecuted from ${SCRIPT_DIR}."
+    #VIRTUAL_ENV_PATH="venv"
+    source venv/bin/activate
+fi 
+
+
+echo "${VIRTUAL_ENV_PATH}"
+
+# if [ -z "$VIRTUAL_ENV" ]; then
+#     #Virtual environment is not activated, activate it
+#     source "$VIRTUAL_ENV_PATH/bin/activate"
+#     echo "Virtual environment activated."
+# else
+#     # Virtual environment is already activated
+#     echo "Virtual environment is already activated."
+# fi
 #echo "Script executed from: ${PWD}"
 
-# SCRIPT_DIR=$(realpath "$(dirname "$0")")
-
-# ENV="${SCRIPT_DIR}/venv"
-
-# #ENV="${PWD}/venv"
-
-
-# #SCRIPT_DIR=$(realpath "$(dirname "$0")")
-
-# echo "${SCRIPT_DIR}"
-# #echo "${ENV}"
-
-# # Change to the directory where the virtual environment will be created
-# cd "${ENV}"
-
-# #echo "${ENV}"
-
-# # # Create a virtual environment using python -m venv
-# #python3 -m venv venv
-
-
-# # # Activate the virtual environment
-# source "${ENV}"/bin/activate
-
-# # Install the packages specified in requirements.txt
-#pip install -r requirements.txt
-
-# # Optional: You can add more commands or instructions here
-
-#ENV="$(pwd)/venv"
-
-#echo "${ENV}"/bin/activate
-
-#source "${ENV}"/bin/activate
-
-
-#cd ..
 
 python3 config.py
 
+#python3 ./methods/python/run_SWD.py
+#python3 ./methods/python/run_SWD10.py
+#python3 ./methods/python/run_SWD20.py
+python3 ./methods/python/run_MMD.py
+
+
 #Rscript ./methods/ocp.R
-Rscript ./methods/ecp.R
-Rscript ./methods/kcpa.R
+#Rscript ./methods/ecp.R
+#Rscript ./methods/kcpa.R
 Rscript ./methods/WATCH.R
 
 
